@@ -1,19 +1,20 @@
 #include <unordered_map>
 #include <list>
+#include <iostream>
 
 #include "cache.h"
 
-void LFUCache::updateElementFrequency(auto node)
+void LFUCache::updateElementFrequency(std::list<Node>::iterator node)
 {
     int freq  = node->freq;
     int key   = node->key;
     int value = node->value;
 
-    auto old_freq_list = freqTable[freq];
-    old_freq_list.erase(node);
+    std::list<Node>* old_freq_list = &freqTable[freq];
+    old_freq_list->erase(node);
 
     // Old frequency list empty case
-    if(old_freq_list.empty())
+    if(old_freq_list->empty())
     {
         freqTable.erase(freq);
         
@@ -27,8 +28,9 @@ void LFUCache::updateElementFrequency(auto node)
     if (freqTable.find(new_freq) == freqTable.end())
         freqTable.insert({new_freq, std::list<Node>()});
 
-    auto new_freq_list = freqTable[new_freq];
-    new_freq_list.push_back(Node(key, value, new_freq));
+    std::list<Node>* new_freq_list = &freqTable[new_freq];
+    new_freq_list->push_front(Node(key, value, new_freq));
+    keyTable[key] = new_freq_list->begin();
 
     return;
 }
@@ -38,7 +40,7 @@ int LFUCache::get(int key)
     if(keyTable.find(key) == keyTable.end())
         return -1;
 
-    auto node = keyTable[key];
+    std::list<Node>::iterator node = keyTable[key];
     int value = node->value;
 
     updateElementFrequency(node);    
@@ -51,24 +53,28 @@ void LFUCache::put(int key, int value)
     // Add a new node or replace an old value of node if it exists
     if(keyTable.find(key) == keyTable.end())
     {
-        auto first_freq_list = freqTable[1];
-        first_freq_list.push_back(Node(key, value, 1));
+        if (freqTable[1].empty())
+            freqTable.insert({1, std::list<Node>()}); 
+             
+        std::list<Node>* first_freq_list = &freqTable[1];
+        first_freq_list->push_front(Node(key, value, 1));
 
-        keyTable[key] = first_freq_list.end();
+        keyTable[key] = first_freq_list->begin();
     }
     else
     {
-        auto node = keyTable[key];
+        std::list<Node>::iterator node = keyTable[key];
         updateElementFrequency(node);
         
         node->value = value;
     }
 
+    // LRU deletion
     if (keyTable.size() > capacity_)
     {
-        auto least_freq_list = freqTable[min_freq_];
+        std::list<Node>* least_freq_list = &freqTable[min_freq_];
         
-        least_freq_list.erase(least_freq_list.begin());
+        least_freq_list->erase(std::prev(least_freq_list->end()));
         keyTable.erase(key);
     }
 }
