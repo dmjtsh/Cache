@@ -4,7 +4,17 @@
 
 #include "cache.h"
 
-void LFUCache::updateElementFrequency(std::list<Node>::iterator node)
+void LFUCache::deleteFrequencyList_(int freq)
+{
+    freqTable.erase(freq);
+            
+    if(min_freq_ == freq)
+        min_freq_++;
+
+    return;
+}
+
+void LFUCache::updateElementFrequency_(std::list<Node>::iterator node)
 {
     int freq  = node->freq;
     int key   = node->key;
@@ -15,12 +25,7 @@ void LFUCache::updateElementFrequency(std::list<Node>::iterator node)
 
     // Old frequency list empty case
     if(old_freq_list->empty())
-    {
-        freqTable.erase(freq);
-        
-        if(min_freq_ == freq)
-            min_freq_++;
-    }
+        deleteFrequencyList_(freq);
 
     int new_freq = freq + 1;
 
@@ -43,7 +48,7 @@ int LFUCache::get(int key)
     std::list<Node>::iterator node = keyTable[key];
     int value = node->value;
 
-    updateElementFrequency(node);    
+    updateElementFrequency_(node);    
 
     return value;
 }
@@ -54,8 +59,11 @@ void LFUCache::put(int key, int value)
     if(keyTable.find(key) == keyTable.end())
     {
         if (freqTable[1].empty())
+        {
             freqTable.insert({1, std::list<Node>()}); 
-             
+            min_freq_ = 1;
+        } 
+          
         std::list<Node>* first_freq_list = &freqTable[1];
         first_freq_list->push_front(Node(key, value, 1));
 
@@ -64,7 +72,7 @@ void LFUCache::put(int key, int value)
     else
     {
         std::list<Node>::iterator node = keyTable[key];
-        updateElementFrequency(node);
+        updateElementFrequency_(node);
         
         node->value = value;
     }
@@ -73,8 +81,17 @@ void LFUCache::put(int key, int value)
     if (keyTable.size() > capacity_)
     {
         std::list<Node>* least_freq_list = &freqTable[min_freq_];
-        
-        least_freq_list->erase(std::prev(least_freq_list->end()));
-        keyTable.erase(key);
+        std::list<Node>::iterator node_to_delete = std::prev(least_freq_list->end());
+        int delete_node_freq = node_to_delete->freq;
+        int delete_node_key  = node_to_delete->key;
+
+        keyTable.erase(delete_node_key);
+
+        least_freq_list->erase(node_to_delete);
+        // Least frequency list empty case
+        if(least_freq_list->empty())
+            deleteFrequencyList_(delete_node_freq);
     }
+
+    return;
 }

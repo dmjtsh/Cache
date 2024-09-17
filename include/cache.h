@@ -18,7 +18,8 @@ public:
     void put(int key, int value);
 
 private:
-    void updateElementFrequency(std::list<Node>::iterator node);
+    void deleteFrequencyList_(int freq);
+    void updateElementFrequency_(std::list<Node>::iterator node);
     
     std::unordered_map<int, std::list<Node>> freqTable;
     std::unordered_map<int, std::list<Node>::iterator> keyTable; 

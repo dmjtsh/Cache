@@ -2,6 +2,8 @@
 #include <string>
 #include <fstream>
 #include <sstream>
+#include <chrono>
+#include <cmath>
 
 #include "cache.h"
 
@@ -58,7 +60,20 @@ int main(int argc, const char** argv)
     }
     else
     {
+        auto start = std::chrono::high_resolution_clock::now();
         TestHash("../tests/easy_test.txt");
+        auto end = std::chrono::high_resolution_clock::now();
+        std::cout << "Time elapsed(in seconds): " << (end - start) / std::pow(10,9) << std::endl;
+
+        start = std::chrono::high_resolution_clock::now();
+        TestHash("../tests/medium_test.txt");
+        end = std::chrono::high_resolution_clock::now();
+        std::cout << "Time elapsed(in seconds): " << (end - start) / std::pow(10,9) << std::endl;
+
+        start = std::chrono::high_resolution_clock::now();
+        TestHash("../tests/hard_test.txt");
+        end = std::chrono::high_resolution_clock::now();
+        std::cout << "Time elapsed(in seconds): " <<  ((end - start) / std::pow(10,9))<< std::endl;
     }
 
     return 0;
