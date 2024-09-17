@@ -1,0 +1,3 @@
+C:/Users/s84373272/Desktop/vlados/cache/build/CMakeFiles/cache_proj.dir
+C:/Users/s84373272/Desktop/vlados/cache/build/CMakeFiles/edit_cache.dir
+C:/Users/s84373272/Desktop/vlados/cache/build/CMakeFiles/rebuild_cache.dir

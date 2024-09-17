@@ -1,0 +1,3 @@
+"C:\Program Files\CMake\bin\cmake.exe" -E rm -f CMakeFiles\cache_proj.dir/objects.a
+C:\msys64\ucrt64\bin\ar.exe qc CMakeFiles\cache_proj.dir/objects.a @CMakeFiles\cache_proj.dir\objects1.rsp
+C:\msys64\ucrt64\bin\g++.exe -g -Wl,--whole-archive CMakeFiles\cache_proj.dir/objects.a -Wl,--no-whole-archive -o cache_proj.exe -Wl,--out-implib,libcache_proj.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\cache_proj.dir\linkLibs.rsp
