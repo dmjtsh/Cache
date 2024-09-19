@@ -110,12 +110,16 @@ int main(int argc, const char** argv)
             auto start = std::chrono::high_resolution_clock::now();
             TestLFUCache(test_names[i]);
             auto end = std::chrono::high_resolution_clock::now();
-            std::cout << "LFU Cache time elapsed(in seconds): " << (end - start) / std::pow(10,9) << std::endl;
+            
+            std::chrono::duration<float> time_elapsed = end - start;
+            std::cout << "LFU Cache time elapsed: " << time_elapsed << std::endl;
 
             start = std::chrono::high_resolution_clock::now();
             TestPCACache(test_names[i]);
             end = std::chrono::high_resolution_clock::now();
-            std::cout << "PCA Cache time elapsed(in seconds): " << (end - start) / std::pow(10,9) << std::endl;
+
+            time_elapsed = end - start;
+            std::cout << "PCA Cache time elapsed: " << time_elapsed << std::endl;
         }
     }
 
