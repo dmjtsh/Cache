@@ -24,22 +24,10 @@ public:
 private:
     void deleteFrequencyList_(int freq);
     void updateElementFrequency_(std::list<Node>::iterator node);
-    
+
     std::unordered_map<int, std::list<Node>> freqTable;
-    std::unordered_map<int, std::list<Node>::iterator> keyTable; 
+    std::unordered_map<int, std::list<Node>::iterator> keyTable;
 
     int min_freq_;
-    int capacity_;
-};
-
-class PCACache {
-public:
-    PCACache(int capacity) : capacity_(capacity) {}
-    
-    size_t countCacheHit(int elems_number, int* elems);
-private:
-    int countFarthestElem(int elems_left, int* elems);
-
-    std::unordered_map<int, int> keyTable;
     int capacity_;
 };

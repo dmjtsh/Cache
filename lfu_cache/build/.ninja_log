@@ -1,0 +1,4 @@
+# ninja log v5
+0	678	1727079921503320505	CMakeFiles/lfu_cache_proj.dir/src/lfu_cache.cpp.o	c44d4aea31550c07
+0	758	1727079921573321255	CMakeFiles/lfu_cache_proj.dir/main.cpp.o	5411d96e1ab2843b
+759	850	1727079921674322336	lfu_cache_proj	22766d1929fff132

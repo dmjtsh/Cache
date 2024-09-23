@@ -1,0 +1,12 @@
+[
+{
+  "directory": "/home/dmit/Desktop/vlados/Cache/lfu_cache/build",
+  "command": "/usr/bin/c++ -I/home/dmit/Desktop/vlados/Cache/lfu_cache/include -g -std=gnu++20 -o CMakeFiles/lfu_cache_proj.dir/main.cpp.o -c /home/dmit/Desktop/vlados/Cache/lfu_cache/main.cpp",
+  "file": "/home/dmit/Desktop/vlados/Cache/lfu_cache/main.cpp"
+},
+{
+  "directory": "/home/dmit/Desktop/vlados/Cache/lfu_cache/build",
+  "command": "/usr/bin/c++ -I/home/dmit/Desktop/vlados/Cache/lfu_cache/include -g -std=gnu++20 -o CMakeFiles/lfu_cache_proj.dir/src/lfu_cache.cpp.o -c /home/dmit/Desktop/vlados/Cache/lfu_cache/src/lfu_cache.cpp",
+  "file": "/home/dmit/Desktop/vlados/Cache/lfu_cache/src/lfu_cache.cpp"
+}
+]

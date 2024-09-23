@@ -1,0 +1,3 @@
+/home/dmit/Desktop/vlados/Cache/lfu_cache/build/CMakeFiles/lfu_cache_proj.dir
+/home/dmit/Desktop/vlados/Cache/lfu_cache/build/CMakeFiles/edit_cache.dir
+/home/dmit/Desktop/vlados/Cache/lfu_cache/build/CMakeFiles/rebuild_cache.dir
