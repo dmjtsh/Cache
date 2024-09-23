@@ -1,3 +1,0 @@
-/home/dmit/Desktop/vlados/Cache/pca_cache/build/CMakeFiles/pca_cache_proj.dir
-/home/dmit/Desktop/vlados/Cache/pca_cache/build/CMakeFiles/edit_cache.dir
-/home/dmit/Desktop/vlados/Cache/pca_cache/build/CMakeFiles/rebuild_cache.dir
