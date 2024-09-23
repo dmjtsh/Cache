@@ -25,22 +25,24 @@ void PCACache::fillNextUseTable(int elems_number, int* elems)
 
 }
 
-int PCACache::getFarthestElemKey(int elems_left, int* elems)
+int PCACache::getFarthestElemKey()
 {
-    assert(elems != nullptr);
-
-    int farthest_elem_key = -1;
-    for(auto curr_iter = nextUseTable.begin(); curr_iter != nextUseTable.end(); curr_iter = std::next(curr_iter))
+    int farthest_elem_key   = -1;
+    int farthest_elem_index = -1;
+    for(auto curr_iter = keyTable.begin(); curr_iter != keyTable.end(); curr_iter++)
     {
-        std::queue curr_queue = curr_iter->second;
+        std::queue curr_queue = nextUseTable[curr_iter->first];
         int        curr_key   = curr_iter->first;
 
         // if element will not appear in list
         if(curr_queue.empty())
             return curr_key;
 
-        if(curr_queue.front() > farthest_elem_key)
-            farthest_elem_key = curr_key;
+        if(curr_queue.front() > farthest_elem_index)
+        {
+            farthest_elem_index = curr_queue.front();
+            farthest_elem_key   = curr_key;
+        }
     }
 
     return farthest_elem_key;
@@ -58,10 +60,8 @@ size_t PCACache::countCacheHit(int elems_number, int* elems)
         int curr_elem_key = elems[i];
 
         // Used for keep nextUseTable in working state
-        while(!nextUseTable[curr_elem_key].empty() && nextUseTable[curr_elem_key].front() <= i)
-        {
+        if(!nextUseTable[curr_elem_key].empty())
             nextUseTable[curr_elem_key].pop();
-        }
 
         if(keyTable.find(curr_elem_key) != keyTable.end())
         {
@@ -74,7 +74,7 @@ size_t PCACache::countCacheHit(int elems_number, int* elems)
             keyTable[curr_elem_key] = FICT_ELEM_VALUE;
         else
         {
-            keyTable.erase(getFarthestElemKey(elems_number, elems));
+            keyTable.erase(getFarthestElemKey());
 
             keyTable[curr_elem_key] = FICT_ELEM_VALUE;
         }

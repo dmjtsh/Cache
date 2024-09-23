@@ -11,7 +11,7 @@ public:
 
     size_t countCacheHit(int elems_number, int* elems);
 private:
-    int getFarthestElemKey(int elems_left, int* elems);
+    int getFarthestElemKey();
     void fillNextUseTable(int elems_number, int* elems);
 
     std::unordered_map<int, std::queue<int>> nextUseTable; // A table that shows in which indexes elem is used

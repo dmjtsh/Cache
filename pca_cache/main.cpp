@@ -60,7 +60,7 @@ int main(int argc, const char** argv)
     }
     else
     {
-        TestPCACache("../../hard_test.txt");
+        TestPCACache("../../tests/easy_test.txt");
     }
 
     return 0;
