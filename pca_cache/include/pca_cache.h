@@ -1,5 +1,5 @@
 #include <unordered_map>
-#include <list>
+#include <queue>
 #include <fstream>
 #include <sstream>
 
@@ -11,8 +11,10 @@ public:
 
     size_t countCacheHit(int elems_number, int* elems);
 private:
-    int countFarthestElem(int elems_left, int* elems);
+    int getFarthestElemKey(int elems_left, int* elems);
+    void fillNextUseTable(int elems_number, int* elems);
 
+    std::unordered_map<int, std::queue<int>> nextUseTable; // A table that shows in which indexes elem is used
     std::unordered_map<int, int> keyTable;
     int capacity_;
 };
