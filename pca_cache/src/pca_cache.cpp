@@ -25,7 +25,8 @@ void PCACache::fillNextUseTable(int elems_number, int* elems)
 
 }
 
-int PCACache::getFarthestElemKey()
+// Returns key of the farthest element comparing it with new elem that we can put in cache
+int PCACache::getFarthestElemKey(int new_elem_key)
 {
     int farthest_elem_key   = -1;
     int farthest_elem_index = -1;
@@ -44,6 +45,12 @@ int PCACache::getFarthestElemKey()
             farthest_elem_key   = curr_key;
         }
     }
+
+    // Comparing it with new elem that we can put in cache
+    std::queue new_elem_queue = nextUseTable[new_elem_key];
+
+    if(new_elem_queue.empty() || new_elem_queue.front() > farthest_elem_index)
+        return new_elem_key;
 
     return farthest_elem_key;
 }
@@ -74,7 +81,11 @@ size_t PCACache::countCacheHit(int elems_number, int* elems)
             keyTable[curr_elem_key] = FICT_ELEM_VALUE;
         else
         {
-            keyTable.erase(getFarthestElemKey());
+            int elem_to_replace_key = getFarthestElemKey(curr_elem_key);
+            if(elem_to_replace_key == curr_elem_key)
+                continue;
+
+            keyTable.erase(elem_to_replace_key);
 
             keyTable[curr_elem_key] = FICT_ELEM_VALUE;
         }

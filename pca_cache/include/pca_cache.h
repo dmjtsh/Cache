@@ -5,13 +5,14 @@
 
 const int FICT_ELEM_VALUE = 0; // Fictitious value for testing
 
+
 class PCACache {
 public:
     PCACache(int capacity) : capacity_(capacity) {}
 
     size_t countCacheHit(int elems_number, int* elems);
 private:
-    int getFarthestElemKey();
+    int  getFarthestElemKey(int new_elem_key);
     void fillNextUseTable(int elems_number, int* elems);
 
     std::unordered_map<int, std::queue<int>> nextUseTable; // A table that shows in which indexes elem is used
