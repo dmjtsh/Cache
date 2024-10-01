@@ -1,8 +1,6 @@
 #include <unordered_map>
 #include <list>
 #include <iostream>
-#include <fstream>
-#include <sstream>
 #include <assert.h>
 
 #include "pca_cache.h"
@@ -11,11 +9,9 @@
 // PCACache block
 //
 
-void PCACache::fillNextUseTable(int elems_number, int* elems)
+void PCACache::fillNextUseTable(std::vector<int> elems)
 {
-    assert(elems != nullptr);
-
-    for (size_t i = 0; i < elems_number; i++)
+    for (size_t i = 0; i < elems.size(); i++)
     {
         if(nextUseTable.find(elems[i]) == nextUseTable.end())
             nextUseTable[elems[i]] = std::queue<int>();
@@ -55,14 +51,13 @@ int PCACache::getFarthestElemKey(int new_elem_key)
     return farthest_elem_key;
 }
 
-size_t PCACache::countCacheHit(int elems_number, int* elems)
+size_t PCACache::countCacheHit(std::vector<int> elems)
 {
-    assert(elems != nullptr);
-
-    fillNextUseTable(elems_number, elems);
+    fillNextUseTable(elems);
 
     size_t cache_hit_count = 0;
-    for (size_t i = 0; i < elems_number; i++)
+
+    for (size_t i = 0; i < elems.size(); i++)
     {
         int curr_elem_key = elems[i];
 
@@ -93,3 +88,4 @@ size_t PCACache::countCacheHit(int elems_number, int* elems)
 
     return cache_hit_count;
 }
+
