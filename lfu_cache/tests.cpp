@@ -1,12 +1,10 @@
 #include <string>
 #include <fstream>
 #include <sstream>
-#include <chrono>
-#include <cmath>
 
 #include <gtest/gtest.h>
 
-#include "test_interface.h"
+#include "test_interface.hpp"
 
 std::stringstream OpenFileAndReturnStrStream(std::string file_name)
 {

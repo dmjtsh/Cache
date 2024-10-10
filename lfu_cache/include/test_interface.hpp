@@ -1,4 +1,7 @@
+#pragma once
+
 #include <fstream>
-#include <sstream>
+
+constexpr inline int FICT_ELEM_VALUE  = 1;
 
 size_t CountLFUCacheHitFromInput(std::istream& input);

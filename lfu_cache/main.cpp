@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "test_interface.h"
-#include "lfu_cache.h"
+#include "test_interface.hpp"
+#include "lfu_cache.hpp"
 
 int main(int argc, char **argv)
 {

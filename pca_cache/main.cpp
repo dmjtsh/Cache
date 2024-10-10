@@ -1,7 +1,6 @@
 #include <iostream>
 
-#include "test_interface.h"
-#include "pca_cache.h"
+#include "test_interface.hpp"
 
 int main(int argc, char **argv)
 {
