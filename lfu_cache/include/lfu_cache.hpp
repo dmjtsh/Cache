@@ -44,7 +44,7 @@ public:
         {
             if (freqTable[1].empty())
             {
-                freqTable.emplace(1, std::list<Node<KeyT, ValueT>>());
+                freqTable[1] = std::list<Node<KeyT, ValueT>>();
                 min_freq_ = 1;
             }
 
@@ -98,7 +98,7 @@ private:
 
         // If there is no new frequency list
         if (freqTable.find(new_freq) == freqTable.end())
-            freqTable.emplace(new_freq, std::list<Node<KeyT, ValueT>>());
+            freqTable[new_freq] = std::list<Node<KeyT, ValueT>>();
 
         // Adding new elem in new list
         std::list<Node<KeyT, ValueT>>& new_freq_list = freqTable[new_freq];
