@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cmath>
 #include <unordered_map>
 #include <list>
 
@@ -7,20 +8,20 @@ template<typename KeyT, typename ValueT>
 struct Node
 {
 public:
-    Node(KeyT key, ValueT value, int freq): key(key), value(value), freq(freq) {}
+    Node(const KeyT& key, const ValueT& value, size_t freq): key(key), value(value), freq(freq) {}
 
     KeyT key;
     ValueT value;
 
-    int freq;
+    size_t freq;
 };
 
 template<typename KeyT, typename ValueT>
 class LFUCache {
 public:
-    LFUCache(int capacity) : capacity_(capacity), min_freq_(1) {}
+    LFUCache(size_t capacity) : capacity_(capacity), min_freq_(1) {}
 
-    ValueT get(KeyT key)
+    ValueT get(const KeyT& key)
     {
         ValueT value {};
 
@@ -36,19 +37,19 @@ public:
         return value;
     }
 
-    void put(KeyT key, ValueT value)
+    void put(const KeyT& key, const ValueT& value)
     {
         // Add a new node or replace an old value of node if it exists
         if(keyTable.find(key) == keyTable.end())
         {
             if (freqTable[1].empty())
             {
-                freqTable.insert({1, std::list<Node<KeyT, ValueT>>()});
+                freqTable.emplace(1, std::list<Node<KeyT, ValueT>>());
                 min_freq_ = 1;
             }
 
             std::list<Node<KeyT, ValueT>>& first_freq_list = freqTable[1];
-            first_freq_list.push_front(Node<KeyT, ValueT>(key, value, 1));
+            first_freq_list.emplace_front(Node<KeyT, ValueT>(key, value, 1));
 
             keyTable[key] = first_freq_list.begin();
         }
@@ -79,7 +80,7 @@ public:
     }
 
 private:
-    void deleteFrequencyList_(int freq)
+    void deleteFrequencyList_(size_t freq)
     {
         freqTable.erase(freq);
 
@@ -89,18 +90,19 @@ private:
         return;
     }
 
-    void updateElementFrequency_(std::list<Node<KeyT, ValueT>>::iterator node)
+    std::list<Node<KeyT, ValueT>>::iterator
+    updateElementFrequency_(const std::list<Node<KeyT, ValueT>>::iterator& node)
     {
-        int old_freq = node->freq;
-        int new_freq = old_freq + 1;
+        size_t old_freq = node->freq;
+        size_t new_freq = old_freq + 1;
 
         // If there is no new frequency list
         if (freqTable.find(new_freq) == freqTable.end())
-            freqTable.insert({new_freq, std::list<Node<KeyT, ValueT>>()});
+            freqTable.emplace(new_freq, std::list<Node<KeyT, ValueT>>());
 
         // Adding new elem in new list
         std::list<Node<KeyT, ValueT>>& new_freq_list = freqTable[new_freq];
-        new_freq_list.push_front(Node(node->key, node->value, new_freq));
+        new_freq_list.emplace_front(Node(node->key, node->value, new_freq));
         keyTable[node->key] = new_freq_list.begin();
 
         std::list<Node<KeyT, ValueT>>& old_freq_list = freqTable[old_freq];
@@ -110,12 +112,14 @@ private:
         if(old_freq_list.empty())
             deleteFrequencyList_(old_freq);
 
-        return;
+        typename std::list<Node<KeyT, ValueT>>::iterator new_node = new_freq_list.begin();
+
+        return new_node;
     }
 
-    std::unordered_map<int, std::list<Node<KeyT, ValueT>>> freqTable;
+    std::unordered_map<size_t, std::list<Node<KeyT, ValueT>>> freqTable;
     std::unordered_map<KeyT, typename std::list<Node<KeyT, ValueT>>::iterator> keyTable;
 
-    int min_freq_;
-    int capacity_;
+    size_t min_freq_;
+    size_t capacity_;
 };

@@ -1,9 +1,9 @@
-#include <fstream>
-#include <sstream>
-
 #include "test_interface.hpp"
 
 #include <gtest/gtest.h>
+
+#include <fstream>
+#include <sstream>
 
 std::stringstream OpenFileAndReturnStrStream(std::string file_name)
 {
