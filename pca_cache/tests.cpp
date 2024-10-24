@@ -11,19 +11,19 @@ std::stringstream OpenFileAndReturnStrStream(std::string file_name)
 
     std::stringstream empty_ss("");
 
-    if (!file) {
+    if (!file)
+    {
         std::cerr << "Could not open a test file!" << std::endl;
         return empty_ss;
     }
 
     std::string line = "";
     // if string stream not empty
-    if (getline(file, line))
+    if (std::getline(file, line))
         return std::stringstream(line);
 
     return empty_ss;
 }
-
 
 TEST(TestPCACacheCorrectness, Subtest_1) {
     std::stringstream ss = OpenFileAndReturnStrStream("../tests/test1.txt");

@@ -8,7 +8,7 @@ template <typename KeyT, typename ValueT>
 class PCACache {
 public:
     template <typename Iter>
-    PCACache(size_t capacity, const Iter& keys_begin, const Iter& keys_end, const Iter& values_begin, const Iter& values_end)
+    PCACache(size_t capacity, const Iter keys_begin, const Iter keys_end, const Iter values_begin, const Iter values_end)
     {
         capacity_ = capacity;
 
@@ -62,7 +62,7 @@ public:
 private:
     KeyT getFarthestElemKey(const KeyT& new_elem_key)
     {
-        KeyT farthest_elem_key {};
+        KeyT farthest_elem_key;
         size_t farthest_elem_index = 0;
 
         for(auto curr_iter = keyTable.begin(); curr_iter != keyTable.end(); curr_iter++)

@@ -23,7 +23,7 @@ public:
 
     ValueT get(const KeyT& key)
     {
-        ValueT value {};
+        ValueT value;
 
         // Return an empty value if elem wasn't found
         if(keyTable.find(key) == keyTable.end())
@@ -78,7 +78,6 @@ public:
 
         return;
     }
-
 private:
     void deleteFrequencyList_(size_t freq)
     {
@@ -91,7 +90,7 @@ private:
     }
 
     std::list<Node<KeyT, ValueT>>::iterator
-    updateElementFrequency_(const std::list<Node<KeyT, ValueT>>::iterator& node)
+    updateElementFrequency_(const std::list<Node<KeyT, ValueT>>::iterator node)
     {
         size_t old_freq = node->freq;
         size_t new_freq = old_freq + 1;
