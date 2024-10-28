@@ -23,7 +23,7 @@ size_t CountLFUCacheHitFromInput(std::istream& input)
         if(!(input >> elem_key))
             throw std::invalid_argument("Invalid input for elements key.");
 
-        if (Cache.get(elem_key) != 0)
+        if (Cache.get(elem_key) != nullptr)
             cache_hit_count++;
         else
             Cache.put(elem_key, FICT_ELEM_VALUE);

@@ -8,15 +8,17 @@ template <typename KeyT, typename ValueT>
 class PCACache {
 public:
     template <typename Iter>
-    PCACache(size_t capacity, const Iter keys_begin, const Iter keys_end, const Iter values_begin, const Iter values_end)
+    PCACache(size_t capacity, Iter keys_begin, Iter keys_end, Iter values_begin, Iter values_end)
     {
         capacity_ = capacity;
 
-        for (Iter it = keys_begin; it != keys_end; ++it) {
+        for (Iter it = keys_begin; it != keys_end; ++it)
+        {
             keys_.push_back(*it);
         }
 
-        for (Iter it = values_begin; it != values_end; ++it) {
+        for (Iter it = values_begin; it != values_end; ++it)
+        {
             values_.push_back(*it);
         }
     }
@@ -46,7 +48,7 @@ public:
                 keyTable[curr_elem_key] = values_[i];
             else
             {
-                int elem_to_replace_key = getFarthestElemKey(curr_elem_key);
+                KeyT elem_to_replace_key = *getFarthestElemKey(curr_elem_key);
                 if(elem_to_replace_key == curr_elem_key)
                     continue;
 
@@ -60,9 +62,9 @@ public:
     }
 
 private:
-    KeyT getFarthestElemKey(const KeyT& new_elem_key)
+    const KeyT* getFarthestElemKey(const KeyT& new_elem_key)
     {
-        KeyT farthest_elem_key;
+        const KeyT* farthest_elem_key = nullptr;
         size_t farthest_elem_index = 0;
 
         for(auto curr_iter = keyTable.begin(); curr_iter != keyTable.end(); curr_iter++)
@@ -72,12 +74,15 @@ private:
 
             // if element will not appear in list
             if(curr_queue.empty())
-                return curr_key;
+            {
+                farthest_elem_key = &curr_key;
+                return farthest_elem_key;
+            }
 
             if(curr_queue.front() > farthest_elem_index)
             {
                 farthest_elem_index = curr_queue.front();
-                farthest_elem_key   = curr_key;
+                farthest_elem_key   = &curr_key;
             }
         }
 
@@ -85,7 +90,7 @@ private:
         std::queue<size_t>& new_elem_queue = nextUseTable[new_elem_key];
 
         if(new_elem_queue.empty() || new_elem_queue.front() > farthest_elem_index)
-            return new_elem_key;
+            farthest_elem_key = &new_elem_key;
 
         return farthest_elem_key;
     }

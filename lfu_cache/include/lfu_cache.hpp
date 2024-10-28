@@ -21,16 +21,14 @@ class LFUCache {
 public:
     LFUCache(size_t capacity) : capacity_(capacity), min_freq_(1) {}
 
-    ValueT get(const KeyT& key)
+    const ValueT* get(const KeyT& key)
     {
-        ValueT value;
-
         // Return an empty value if elem wasn't found
-        if(keyTable.find(key) == keyTable.end())
-            return value;
+        if (keyTable.find(key) == keyTable.end())
+            return nullptr;
 
         typename std::list<Node<KeyT, ValueT>>::iterator node = keyTable[key];
-        value = node->value;
+        const ValueT* value = &node->value;
 
         updateElementFrequency_(node);
 
@@ -90,7 +88,7 @@ private:
     }
 
     std::list<Node<KeyT, ValueT>>::iterator
-    updateElementFrequency_(const std::list<Node<KeyT, ValueT>>::iterator node)
+    updateElementFrequency_(std::list<Node<KeyT, ValueT>>::iterator node)
     {
         size_t old_freq = node->freq;
         size_t new_freq = old_freq + 1;
